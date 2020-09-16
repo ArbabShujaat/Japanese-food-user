@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:japfooduser/grocerry_kit/home_page.dart';
 import 'package:japfooduser/payment_service.dart';
 import 'package:japfooduser/providers/collection_names.dart';
 import 'package:japfooduser/providers/user.dart';
@@ -16,14 +17,15 @@ class CheckoutPage extends StatefulWidget {
   final double subtotal;
   final double total;
   final String time;
+  final String driverDescription;
 
-  CheckoutPage({
-    @required this.discountPercentage,
-    @required this.deliveryCharges,
-    @required this.subtotal,
-    @required this.total,
-    @required this.time,
-  });
+  CheckoutPage(
+      {@required this.discountPercentage,
+      @required this.deliveryCharges,
+      @required this.subtotal,
+      @required this.total,
+      @required this.time,
+      @required this.driverDescription});
 
   @override
   _CheckoutPageState createState() => _CheckoutPageState();
@@ -78,6 +80,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
@@ -101,12 +104,23 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ? Center(child: CircularProgressIndicator())
           : _orderSuccessful == true
               ? Center(
-                  child: Icon(
-                    Icons.thumb_up,
-                    color: Colors.green,
-                    size: 220,
-                  ),
-                )
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.thumb_up,
+                      color: Colors.green,
+                      size: 220,
+                    ),
+                    Text(
+                      "Congratulations!! Your Order has been Recieved",
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ))
               : SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -320,9 +334,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         decoration: BoxDecoration(
-                            border: Border.all(width: 2, color: Colors.grey),
+                            border: Border.all(
+                                width: 1, color: Colors.grey.withOpacity(0.5)),
                             shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(8),
                             color: _cartItemColor),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -335,16 +349,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 Text(
                                   "Payment Method:",
                                   style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
                                   ),
                                 ),
                                 Text(
                                   _paymentMethod,
                                   style: TextStyle(
                                     color: Theme.of(context).primaryColor,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ],
@@ -367,9 +379,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   child: Text(
                                     "Select Payment Method",
                                     style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey),
+                                        fontSize: 20, color: Colors.grey),
                                   ),
                                 ),
                               ),
@@ -430,48 +440,53 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 2),
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(8),
-                            color: _cartItemColor),
+                            shape: BoxShape.rectangle, color: _cartItemColor),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "Name:",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.all(15),
+                              height: 50,
+                              child: TextField(
+                                maxLines: 1,
+                                controller: _nameController,
+                                keyboardType: TextInputType.text,
+                                style: TextStyle(fontSize: 17),
+                                decoration: InputDecoration(
+                                  hintText: 'Name',
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey)),
                                 ),
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  margin: EdgeInsets.all(0),
-                                  width: MediaQuery.of(context).size.width * .6,
-                                  child: TextField(
-                                    maxLines: 1,
-                                    controller: _nameController,
-                                    keyboardType: TextInputType.text,
-                                    style: TextStyle(fontSize: 17),
-                                    decoration: InputDecoration(
-                                      hintText: 'Name',
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          borderSide:
-                                              BorderSide(color: Colors.grey)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          borderSide:
-                                              BorderSide(color: Colors.grey)),
-                                    ),
-                                  ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.all(15),
+                              height: 50,
+                              child: TextField(
+                                maxLines: 1,
+                                controller: _numberController,
+                                keyboardType: TextInputType.text,
+                                style: TextStyle(fontSize: 17),
+                                decoration: InputDecoration(
+                                  hintText: 'Phone Number',
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide:
+                                          BorderSide(color: Colors.grey)),
                                 ),
-                              ],
+                              ),
                             ),
                             SizedBox(
                               height: 6,
@@ -480,54 +495,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  "Number:",
+                                  "Email:",
                                   style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
                                   ),
                                 ),
                                 Container(
                                   alignment: Alignment.centerRight,
-                                  margin: EdgeInsets.all(0),
-                                  width: MediaQuery.of(context).size.width * .6,
-                                  child: TextField(
-                                    maxLines: 1,
-                                    controller: _numberController,
-                                    keyboardType: TextInputType.text,
-                                    style: TextStyle(fontSize: 17),
-                                    decoration: InputDecoration(
-                                      hintText: 'Phone Number',
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          borderSide:
-                                              BorderSide(color: Colors.grey)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          borderSide:
-                                              BorderSide(color: Colors.grey)),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "E-Mail:",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  margin: EdgeInsets.all(0),
+                                  margin: EdgeInsets.all(15),
                                   width: MediaQuery.of(context).size.width * .6,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -535,7 +510,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       currentUserEmail,
                                       maxLines: 2,
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        color: Colors.black.withOpacity(0.5),
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -546,41 +522,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             SizedBox(
                               height: 6,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "Address:",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.all(15.0),
+                              height: 100,
+                              child: TextField(
+                                maxLines: 5,
+                                controller: _addressController,
+                                keyboardType: TextInputType.text,
+                                style: TextStyle(fontSize: 17),
+                                decoration: InputDecoration(
+                                  hintText: 'Address',
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide:
+                                          BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide:
+                                          BorderSide(color: Colors.grey)),
                                 ),
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  margin: EdgeInsets.all(0),
-                                  width: MediaQuery.of(context).size.width * .6,
-                                  child: TextField(
-                                    maxLines: 5,
-                                    controller: _addressController,
-                                    keyboardType: TextInputType.text,
-                                    style: TextStyle(fontSize: 17),
-                                    decoration: InputDecoration(
-                                      hintText: 'Address',
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          borderSide:
-                                              BorderSide(color: Colors.grey)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          borderSide:
-                                              BorderSide(color: Colors.grey)),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
@@ -592,13 +554,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           : Container(
                               margin: EdgeInsets.only(top: 16, bottom: 16),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).accentColor,
-                                shape: BoxShape.rectangle,
+                                color: Colors.green,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(30)),
                               ),
+                              height: 50,
                               width: 150,
                               child: FlatButton(
+                                shape: StadiumBorder(),
+                                color: Colors.green,
                                 child: Text('Order Now',
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.white)),
@@ -682,11 +646,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
+                        height: 50,
                         width: 150,
                         child: FlatButton(
+                          shape: StadiumBorder(),
+                          color: Colors.red,
                           child: Text('Cancel Order',
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.grey)),
+                                  TextStyle(fontSize: 20, color: Colors.white)),
                           onPressed: () async {
                             setState(() {
                               _isLoading = true;
@@ -775,6 +742,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         'dateTime': timestamp.toIso8601String(),
         'completed': false,
         'time': widget.time,
+        'driverdescription': widget.driverDescription,
         'paymentMethod': _paymentMethod,
         'products': cartItems.documents
             .map((DocumentSnapshot cp) => {
@@ -801,6 +769,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
       setState(() {
         _isLoading = false;
         _orderSuccessful = true;
+        subtotal = 0;
+        cartItemCount = 0;
       });
 
 //      var mailgun = MailgunMailer(

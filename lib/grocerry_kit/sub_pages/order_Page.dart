@@ -19,12 +19,12 @@ class _OrderPageState extends State<OrderPage> {
   Color _cartItemColor = Colors.white70;
   double _total = 0;
 
-
-
   @override
   void initState() {
     _orderItem = _covertToOrderItem(widget.orderSnapshot);
-    _total = double.parse(_orderItem.subTotal)+double.parse(_orderItem.deliveryCharges)-double.parse(_orderItem.discPercentage);
+    _total = double.parse(_orderItem.subTotal) +
+        double.parse(_orderItem.deliveryCharges) -
+        double.parse(_orderItem.discPercentage);
     print(_orderItem.cartItemList);
     super.initState();
   }
@@ -34,18 +34,19 @@ class _OrderPageState extends State<OrderPage> {
     List<dynamic> cartItemsList = data['products'];
 //   List<dynamic> cartItemsList =[];
 //   cartItems.forEach((element) {cartItemsList.add(element.values);});
-   List<CartItem>  clist= [];
-   cartItemsList.forEach((item) { clist.add(CartItem(image: item['productImageRef'],
-       price: double.parse(item['productPrice']),
-       quantity: int.parse(item['productQuantity']),
-       name: item['productName'],
-       subTotal: double.parse(item['product'])
-   ),);});
+    List<CartItem> clist = [];
+    cartItemsList.forEach((item) {
+      clist.add(
+        CartItem(
+            image: item['productImageRef'],
+            price: double.parse(item['productPrice']),
+            quantity: int.parse(item['productQuantity']),
+            name: item['productName'],
+            subTotal: double.parse(item['product'])),
+      );
+    });
     return OrderItem(
-        cartItemList:
-
-
-        clist,
+        cartItemList: clist,
         subTotal: data['subTotal'],
         name: data['name'],
         storeId: data['storeId'],
@@ -60,34 +61,35 @@ class _OrderPageState extends State<OrderPage> {
         discPercentage: data['discPercentage'],
         extraStuffOrdered: data['extraStuffOrdered'],
         paymentMethod: data['paymentMethod'],
-        userUid: data['userUid']
-    );
+        userUid: data['userUid']);
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Material(
-        child: Scaffold(appBar: AppBar(
-          centerTitle: true,
-          brightness: Brightness.dark,
-          elevation: 0,
-          backgroundColor: Theme.of(context).accentColor,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            brightness: Brightness.dark,
+            elevation: 0,
+            backgroundColor: Theme.of(context).accentColor,
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
             ),
+            automaticallyImplyLeading: false,
+            title: Text("Order Details",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500)),
           ),
-          automaticallyImplyLeading: false,
-          title: Text(
-              "Order Details",style: TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.w500)
-          ),
-
-        ),
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Column(
@@ -121,8 +123,7 @@ class _OrderPageState extends State<OrderPage> {
                   child: ListView.separated(
                     separatorBuilder: (context, index) {
                       return Divider(
-                        color: Colors.grey,
-                        thickness: 1.0,
+                        color: Colors.deepOrangeAccent,
                       );
                     },
                     shrinkWrap: true,
@@ -133,11 +134,6 @@ class _OrderPageState extends State<OrderPage> {
                   ),
                 ),
 
-
-                Divider(
-                  color: Colors.black87,
-                  thickness: 1.5,
-                ),
                 ///Column for total price , discount etc
                 Container(
                   alignment: Alignment.centerLeft,
@@ -145,47 +141,49 @@ class _OrderPageState extends State<OrderPage> {
                   child: Text(
                     "Payment Details",
                     style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor
-                    ),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).primaryColor),
                   ),
                 ),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
                 Container(
-                    margin: EdgeInsets.only(
-                        left: 20, right: 20, top: 4, bottom: 4),
+                    margin:
+                        EdgeInsets.only(left: 20, right: 20, top: 4, bottom: 4),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
                           "Total",
                           style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700),
+                              fontSize: 20, fontWeight: FontWeight.w500),
                         ),
                         Text(
                           "\$" + _orderItem.subTotal,
                           style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColor),
                         ),
                       ],
                     )),
 
-                SizedBox(height: 6,),
+                SizedBox(
+                  height: 6,
+                ),
                 Container(
-                  margin: EdgeInsets.only(
-                      left: 20, right: 20, top: 4, bottom: 4),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 4, bottom: 4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
                         "Payment Method:",
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Text(
@@ -199,10 +197,12 @@ class _OrderPageState extends State<OrderPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 6,),
+                SizedBox(
+                  height: 6,
+                ),
                 Divider(
                   color: Colors.black87,
-                  thickness: 1.5,
+                  thickness: 0.5,
                 ),
 //                Container(
 //                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
@@ -307,7 +307,6 @@ class _OrderPageState extends State<OrderPage> {
 //                  ),
 //                ),
 
-
                 ///Column for Delivery Timings and Payment Methods
 //                Container(
 //                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
@@ -365,26 +364,25 @@ class _OrderPageState extends State<OrderPage> {
 //                  ),
 //                ),
 
-
-
                 ///Column for user details
-                SizedBox(height: 6,),
+
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 16, top: 4),
                   child: Text(
                     "Customer Details",
                     style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor
-                    ),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).primaryColor),
                   ),
                 ),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
                 Container(
-                  margin: EdgeInsets.only(
-                      left: 20, right: 20, top: 4, bottom: 4),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 4, bottom: 4),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -394,8 +392,7 @@ class _OrderPageState extends State<OrderPage> {
                           Text(
                             "Name:",
                             style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
                             ),
                           ),
                           Text(
@@ -408,7 +405,7 @@ class _OrderPageState extends State<OrderPage> {
                         ],
                       ),
                       SizedBox(
-                        height: 6,
+                        height: 4,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -416,8 +413,7 @@ class _OrderPageState extends State<OrderPage> {
                           Text(
                             "Number:",
                             style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
                             ),
                           ),
                           Text(
@@ -430,7 +426,7 @@ class _OrderPageState extends State<OrderPage> {
                         ],
                       ),
                       SizedBox(
-                        height: 6,
+                        height: 4,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -438,8 +434,7 @@ class _OrderPageState extends State<OrderPage> {
                           Text(
                             "E-Mail:",
                             style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
                             ),
                           ),
                           Text(
@@ -452,7 +447,7 @@ class _OrderPageState extends State<OrderPage> {
                         ],
                       ),
                       SizedBox(
-                        height: 6,
+                        height: 4,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -460,17 +455,13 @@ class _OrderPageState extends State<OrderPage> {
                           Text(
                             "Address:",
                             style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
                             ),
                           ),
                           Container(
                             alignment: Alignment.centerRight,
                             margin: EdgeInsets.all(0),
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * .6,
+                            width: MediaQuery.of(context).size.width * .6,
                             child: Text(
                               _orderItem.address,
                               maxLines: 7,
@@ -485,7 +476,9 @@ class _OrderPageState extends State<OrderPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 20,)
+                SizedBox(
+                  height: 20,
+                )
               ],
             ),
           ),
@@ -502,7 +495,7 @@ class _OrderPageState extends State<OrderPage> {
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(8),
           color: Colors.white70),
-      height: 120,
+      height: 70,
       child: Row(children: <Widget>[
         Container(
           alignment: Alignment.centerLeft,
@@ -510,13 +503,13 @@ class _OrderPageState extends State<OrderPage> {
           height: 100,
           //margin: EdgeInsets.only(left: 5),
           child: CircleAvatar(
-            maxRadius: 50,
+            maxRadius: 40,
             backgroundColor: Colors.grey[300],
             backgroundImage: NetworkImage(cartItem.image),
           ),
         ),
         SizedBox(
-          width: 18,
+          width: 14,
         ),
         Expanded(
           child: Column(
@@ -527,20 +520,20 @@ class _OrderPageState extends State<OrderPage> {
               Text(
                 cartItem.name,
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
               SizedBox(
-                height: 8,
+                height: 6,
               ),
               Row(
                 children: <Widget>[
                   Text(
                     "Quantity: ",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.black87,
                       fontWeight: FontWeight.w400,
                     ),
@@ -548,7 +541,7 @@ class _OrderPageState extends State<OrderPage> {
                   Text(
                     '1 x ' + cartItem.quantity.toString(),
                     style: TextStyle(
-                      fontSize: 19,
+                      fontSize: 15,
                       color: Colors.black87,
                       fontWeight: FontWeight.w500,
                     ),
@@ -556,29 +549,29 @@ class _OrderPageState extends State<OrderPage> {
                   )
                 ],
               ),
-
-              SizedBox(height: 4,),
+              SizedBox(
+                height: 4,
+              ),
               Row(
                 children: <Widget>[
                   Text(
                     "Subtotal:  ",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.black87,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   Text(
-                    "\$ " +cartItem.subTotal.toString(),
+                    "\$ " + cartItem.subTotal.toString(),
                     style: TextStyle(
-                      fontSize: 19,
+                      fontSize: 15,
                       color: Colors.black87,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
-
             ],
           ),
         ),

@@ -29,6 +29,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   StyleFunctions formFieldStyle = StyleFunctions();
   TextEditingController _couponCodeController = TextEditingController();
+  TextEditingController _driverController = TextEditingController();
   TextEditingController _extraStuffController = TextEditingController();
   bool promoCodeChecker = true;
   double _discountPercentage = 0;
@@ -82,23 +83,7 @@ class _CartPageState extends State<CartPage> {
                   color: Colors.white,
                   fontSize: 24,
                   fontWeight: FontWeight.w500)),
-          actions: <Widget>[
-//          GestureDetector(
-//              onTap: () {
-//                Navigator.push(context, MaterialPageRoute(builder: (context) {
-//                  return AddCategoryPage();
-//                }));
-//              },
-//              child: Row(
-//                children: <Widget>[
-//                  Padding(
-//                    padding: const EdgeInsets.only(right: 8.0),
-//                    child: Text("Add Category",
-//                        style: TextStyle(color: Colors.white)),
-//                  )
-//                ],
-//              ))
-          ],
+          actions: <Widget>[],
         ),
         backgroundColor: Colors.white,
         body: _prefloading == true
@@ -143,85 +128,88 @@ class _CartPageState extends State<CartPage> {
                     _discount = _subtotal - _total;
                     _total = _total + _deliveryCharges;
                   }
-                  return SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: Stack(
                       children: <Widget>[
-                        Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Container(
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                              ),
-                              child: TextFormField(
-                                // controller: passwordController,
-
-                                decoration: new InputDecoration(
-                                  hintMaxLines: 2,
-                                  hintText:
-                                      "Instruction to driver,e.g knock on back door, lift not working",
-                                  hintStyle: TextStyle(
-                                      letterSpacing: 0.5,
-                                      color: Colors.grey,
-                                      fontSize: 18),
-
-                                  border: new OutlineInputBorder(
-                                    borderSide: new BorderSide(),
-                                  ),
-                                  //fillColor: Colors.green
-                                ),
-
-                                style: new TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            )),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            _showDialog();
-                          },
-                          child: Container(
-                            height: 45,
-                            child: ListTile(
-                                leading: Column(children: [
-                                  Icon(Icons.timer),
-                                  SizedBox(
-                                    height: 4.0,
-                                  ),
-                                  Text(
-                                    "Delivery Time",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey[600],
-                                        fontSize: 14),
-                                  ),
-                                ]),
-                                title: Padding(
-                                  padding: const EdgeInsets.all(14.0),
-                                  child: Text(
-                                    time,
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: 17,
+                        SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Container(
+                                    height: 70,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
                                     ),
-                                  ),
-                                ),
-                                trailing: IconButton(
-                                    iconSize: 30,
-                                    icon: Icon(Icons.keyboard_arrow_down),
-                                    onPressed: () {
-                                      _showDialog();
-                                    })),
-                          ),
-                        ),
+                                    child: TextFormField(
+                                      controller: _driverController,
+                                      decoration: new InputDecoration(
+                                        hintMaxLines: 2,
 
-                        SizedBox(
-                          height: 10,
-                        ),
+                                        hintText:
+                                            "Instruction to driver,e.g knock on back door, lift not working",
+                                        hintStyle: TextStyle(
+                                            letterSpacing: 0.5,
+                                            color: Colors.grey,
+                                            fontSize: 18),
+
+                                        border: new OutlineInputBorder(
+                                          borderSide: new BorderSide(),
+                                        ),
+                                        //fillColor: Colors.green
+                                      ),
+                                      style: new TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  _showDialog();
+                                },
+                                child: Container(
+                                  height: 45,
+                                  child: ListTile(
+                                      leading: Column(children: [
+                                        Icon(Icons.timer),
+                                        SizedBox(
+                                          height: 4.0,
+                                        ),
+                                        Text(
+                                          "Delivery Time",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey[600],
+                                              fontSize: 14),
+                                        ),
+                                      ]),
+                                      title: Padding(
+                                        padding: const EdgeInsets.all(14.0),
+                                        child: Text(
+                                          time,
+                                          style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: 17,
+                                          ),
+                                        ),
+                                      ),
+                                      trailing: IconButton(
+                                          iconSize: 30,
+                                          icon: Icon(Icons.keyboard_arrow_down),
+                                          onPressed: () {
+                                            _showDialog();
+                                          })),
+                                ),
+                              ),
+
+                              SizedBox(
+                                height: 10,
+                              ),
 
 //                    ///List of Products
 //                    Container(
@@ -235,253 +223,277 @@ class _CartPageState extends State<CartPage> {
 //                        ),
 //                      ),
 //                    ),
-                        Container(
-                          margin: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
+                              Container(
+                                margin: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
 //                          border: Border.all(color: Colors.grey, width: 2),
 //                          borderRadius: BorderRadius.circular(8),
-                              color: Colors.white70),
-                          height: MediaQuery.of(context).size.height * .43,
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) {
-                              return Divider(
-                                color: Colors.red,
-                                thickness: 0.5,
-                              );
-                            },
-                            shrinkWrap: true,
-                            itemCount: snapShotData.length,
-                            itemBuilder: (context, index) {
-                              return _listItem(snapShotData[index]);
-                            },
-                          ),
-                        ),
+                                    color: Colors.white70),
+                                height:
+                                    MediaQuery.of(context).size.height * .35,
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, bottom: 8),
+                                child: ListView.separated(
+                                  separatorBuilder: (context, index) {
+                                    return Divider(
+                                      color: Colors.red,
+                                      thickness: 0.5,
+                                    );
+                                  },
+                                  shrinkWrap: true,
+                                  itemCount: snapShotData.length,
+                                  itemBuilder: (context, index) {
+                                    return _listItem(snapShotData[index]);
+                                  },
+                                ),
+                              ),
 
-                        Container(
-                            margin: EdgeInsets.only(
-                                left: 20, right: 20, top: 0, bottom: 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "Delivery Charges",
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                Text(
-                                  "£" + _deliveryCharges.toStringAsFixed(2),
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey[600]),
-                                ),
-                              ],
-                            )),
+                              Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, right: 20, top: 0, bottom: 0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        "Delivery Charges",
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      Text(
+                                        "£" +
+                                            _deliveryCharges.toStringAsFixed(2),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[600]),
+                                      ),
+                                    ],
+                                  )),
 
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(
-                                left: 20, right: 20, top: 0, bottom: 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "Total",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                                Text(
-                                  "£" + _total.toStringAsFixed(2),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                      color: Theme.of(context).primaryColor),
-                                ),
-                              ],
-                            )),
-
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: 20, right: 20, top: 4, bottom: 4),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Promo Code",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey),
+                              SizedBox(
+                                height: 6,
                               ),
                               Container(
-                                color: Colors.white,
+                                  margin: EdgeInsets.only(
+                                      left: 20, right: 20, top: 0, bottom: 0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        "Total",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      Text(
+                                        "£" + _total.toStringAsFixed(2),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                      ),
+                                    ],
+                                  )),
 
-                                height: 50,
-                                width: MediaQuery.of(context).size.width * .4,
+                              SizedBox(
+                                height: 6,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, top: 4, bottom: 4),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      "Promo Code",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey),
+                                    ),
+                                    Container(
+                                      color: Colors.white,
+
+                                      height: 50,
+                                      width: MediaQuery.of(context).size.width *
+                                          .4,
 //                      padding: EdgeInsets.only(
 //                          left: 16, right: 16, top: 8, bottom: 8),
-                                child: TextField(
-                                  controller: _couponCodeController,
-                                  keyboardType: TextInputType.text,
-                                  style: TextStyle(fontSize: 14),
-                                  decoration: InputDecoration(
-                                    hintText: 'Enter Code',
-                                    hintStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 18,
+                                      child: TextField(
+                                        controller: _couponCodeController,
+                                        keyboardType: TextInputType.text,
+                                        style: TextStyle(fontSize: 14),
+                                        decoration: InputDecoration(
+                                          hintText: 'Enter Code',
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 18,
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: BorderSide(
+                                                  color:
+                                                      Colors.deepOrangeAccent)),
+                                          focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey)),
+                                        ),
+                                      ),
                                     ),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        borderSide: BorderSide(
-                                            color: Colors.deepOrangeAccent)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                        borderSide:
-                                            BorderSide(color: Colors.grey)),
-                                  ),
+                                    FlatButton(
+                                      onPressed: () {
+                                        if (_couponCodeController.text
+                                            .trim()
+                                            .isNotEmpty) {
+                                          Firestore.instance
+                                              .collection(
+                                                  discount_coupons_collection)
+                                              .where('promoCode',
+                                                  isEqualTo:
+                                                      _couponCodeController.text
+                                                          .trim())
+                                              .getDocuments()
+                                              .then((value) {
+                                            if (value.documents.length > 0) {
+                                              setState(() {
+                                                _discountPercentage =
+                                                    double.parse(
+                                                        value.documents[0].data[
+                                                            'discPercentage']);
+                                                promoCodeChecker = true;
+                                                _couponCodeController.clear();
+                                              });
+                                            } else {
+                                              setState(() {
+                                                promoCodeChecker = false;
+                                                _couponCodeController.clear();
+                                              });
+                                            }
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                        "ADD",
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).accentColor,
+                                            fontSize: 20),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              FlatButton(
-                                onPressed: () {
-                                  if (_couponCodeController.text
-                                      .trim()
-                                      .isNotEmpty) {
-                                    Firestore.instance
-                                        .collection(discount_coupons_collection)
-                                        .where('promoCode',
-                                            isEqualTo: _couponCodeController
-                                                .text
-                                                .trim())
-                                        .getDocuments()
-                                        .then((value) {
-                                      if (value.documents.length > 0) {
-                                        setState(() {
-                                          _discountPercentage = double.parse(
-                                              value.documents[0]
-                                                  .data['discPercentage']);
-                                          promoCodeChecker = true;
-                                          _couponCodeController.clear();
-                                        });
-                                      } else {
-                                        setState(() {
-                                          promoCodeChecker = false;
-                                          _couponCodeController.clear();
-                                        });
-                                      }
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  "ADD",
-                                  style: TextStyle(
-                                      color: Theme.of(context).accentColor,
-                                      fontSize: 20),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
 
-                        SizedBox(
-                          height: 8,
-                        ),
-                        if (promoCodeChecker == false)
-                          Text(
-                            "No such promo code available",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        if (promoCodeChecker == false)
-                          SizedBox(
-                            height: 6,
-                          ),
-
-                        Divider(
-                          color: Colors.red,
-                          thickness: 0.6,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: 20,
-                            right: 20,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Loyalty Order points",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey),
+                              SizedBox(
+                                height: 8,
                               ),
-                              FlatButton(
-                                onPressed: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return Loyalty();
-                                  }));
-                                },
-                                child: Text(
-                                  "VIEW",
-                                  style: TextStyle(
-                                      color: Theme.of(context).accentColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400),
+                              if (promoCodeChecker == false)
+                                Text(
+                                  "No such promo code available",
+                                  style: TextStyle(color: Colors.red),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
+                              if (promoCodeChecker == false)
+                                SizedBox(
+                                  height: 6,
+                                ),
+
+                              Divider(
+                                color: Colors.red,
+                                thickness: 0.6,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      "Loyalty Order points",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.grey),
+                                    ),
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return Loyalty();
+                                        }));
+                                      },
+                                      child: Text(
+                                        "VIEW",
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).accentColor,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
 
 //                        Divider(
 //                          color: Colors.black87,
 //                          thickness: 1.5,
 //                        ),
-
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
-                            shape: BoxShape.rectangle,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
+                            ],
                           ),
-                          width: 250,
-                          child: FlatButton(
-                            child: Row(
-                              children: <Widget>[
-                                Text('Proceed To Checkout',
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.white)),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.white,
-                                  size: 20,
-                                )
-                              ],
+                        ),
+                        Positioned(
+                          bottom: 5,
+                          left: MediaQuery.of(context).size.width / 4.3,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                              shape: BoxShape.rectangle,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
                             ),
-                            onPressed: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return CheckoutPage(
-                                  deliveryCharges: _deliveryCharges,
-                                  discountPercentage: _discount,
-                                  subtotal: _subtotal,
-                                  total: _total,
-                                  time: time,
-                                );
-                              }));
-                            },
+                            width: 250,
+                            child: FlatButton(
+                              child: Row(
+                                children: <Widget>[
+                                  Text('Proceed To Checkout',
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white)),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.white,
+                                    size: 20,
+                                  )
+                                ],
+                              ),
+                              onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return CheckoutPage(
+                                    deliveryCharges: _deliveryCharges,
+                                    discountPercentage: _discount,
+                                    subtotal: _subtotal,
+                                    total: _total,
+                                    driverDescription: _driverController.text,
+                                    time: time,
+                                  );
+                                }));
+                              },
+                            ),
                           ),
                         ),
                       ],
@@ -647,202 +659,6 @@ class _CartPageState extends State<CartPage> {
                 ],
               )),
         ));
-//     return Container(
-//       decoration: BoxDecoration(
-//           shape: BoxShape.rectangle,
-//           borderRadius: BorderRadius.circular(8),
-//           color: Colors.white70),
-//       height: 99,
-//       child: Row(children: <Widget>[
-//         Container(
-//             alignment: Alignment.centerLeft,
-//             width: 70,
-//             child: CircleAvatar(
-//               maxRadius: 30,
-//               backgroundImage: NetworkImage(
-//                 cartItem['image'],
-//               ),
-//             )),
-//         Expanded(
-//           child: Column(
-//             mainAxisSize: MainAxisSize.max,
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             children: <Widget>[
-//               SizedBox(
-//                 height: 10.0,
-//               ),
-//               Text(
-//                 cartItem['name'],
-//                 style: TextStyle(
-//                   fontSize: 18,
-//                   fontWeight: FontWeight.w500,
-//                   color: Theme.of(context).primaryColor,
-//                 ),
-//               ),
-//               Row(
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: <Widget>[
-//                   Expanded(
-//                     child: Text(
-//                       "£" +
-//                           (cartItem['price'] * cartItem['quantity']).toString(),
-//                       style: TextStyle(
-//                           fontSize: 17,
-//                           fontWeight: FontWeight.bold,
-//                           color: Colors.grey[600]),
-//                     ),
-//                   ),
-//                   Column(
-//                     children: [
-//                       Row(
-//                         children: [
-//                           Text(
-//                             "Quantity: ",
-//                             style: TextStyle(
-//                               fontSize: 16,
-//                               color: Colors.black87,
-//                               fontWeight: FontWeight.w400,
-//                             ),
-//                           ),
-//                           Text(
-//                             '1 x ' + cartItem['quantity'].toString(),
-//                             style: TextStyle(
-//                               fontSize: 17,
-//                               color: Colors.black87,
-//                               fontWeight: FontWeight.w500,
-//                             ),
-//                             softWrap: true,
-//                           ),
-//                         ],
-//                       ),
-//                       Container(
-// //                    width: 122,
-// //                  height: 40,
-// //                    decoration: BoxDecoration(border: Border.all(color: Colors.black54,width: 1),
-// //                    borderRadius: BorderRadius.circular(8)
-// //                    ),
-//                         child: Row(
-//                           mainAxisSize: MainAxisSize.min,
-//                           crossAxisAlignment: CrossAxisAlignment.center,
-//                           children: <Widget>[
-//                             IconButton(
-//                               padding: EdgeInsets.all(10.0),
-// //                          splashColor: Colors.red,
-//                               alignment: Alignment.centerLeft,
-//                               onPressed: () {
-//                                 //cartItem['quantity']+=1;
-
-//                                 if (cartItem['quantity'] > 1) {
-//                                   Firestore.instance
-//                                       .collection(users_collection)
-//                                       .document(currentUserId)
-//                                       .collection('cart')
-//                                       .document(item.documentID)
-//                                       .updateData({
-//                                     'quantity': cartItem['quantity'] - 1
-//                                   });
-//                                 } else {
-//                                   Firestore.instance
-//                                       .collection(users_collection)
-//                                       .document(currentUserId)
-//                                       .collection('cart')
-//                                       .document(item.documentID)
-//                                       .delete();
-//                                 }
-//                               },
-//                               icon: Container(
-//                                 width: 30,
-//                                 height: 30,
-//                                 decoration: BoxDecoration(
-//                                     color: Colors.deepOrangeAccent,
-//                                     border:
-//                                         Border.all(color: Colors.red, width: 1),
-//                                     borderRadius: BorderRadius.circular(4)),
-//                                 child: Icon(
-//                                   Icons.remove,
-//                                   color: Colors.white,
-//                                   size: 25,
-//                                 ),
-//                               ),
-//                             ),
-//                             Text(
-//                               cartItem['quantity'].toString(),
-//                               style: TextStyle(
-//                                 fontSize: 15,
-//                                 color: Colors.black45,
-//                                 fontWeight: FontWeight.bold,
-//                               ),
-//                               softWrap: true,
-//                             ),
-//                             IconButton(
-//                               padding: EdgeInsets.all(10.0),
-// //                          splashColor: Colors.green,
-//                               alignment: Alignment.centerRight,
-
-//                               onPressed: () {
-//                                 Firestore.instance
-//                                     .collection(users_collection)
-//                                     .document(currentUserId)
-//                                     .collection('cart')
-//                                     .document(item.documentID)
-//                                     .updateData(
-//                                         {'quantity': cartItem['quantity'] + 1});
-//                               },
-//                               icon: Container(
-//                                 width: 30,
-//                                 height: 30,
-//                                 decoration: BoxDecoration(
-//                                     color: Colors.deepOrangeAccent,
-//                                     border:
-//                                         Border.all(color: Colors.red, width: 1),
-//                                     borderRadius: BorderRadius.circular(4)),
-//                                 child: Icon(
-//                                   Icons.add,
-//                                   color: Colors.white,
-//                                   size: 25,
-//                                 ),
-//                               ),
-//                             )
-//                           ],
-//                         ),
-//                       ),
-//                     ],
-//                   )
-
-// //                  GestureDetector(
-// //                  onTap: (){
-// //                  Firestore.instance.collection(users_collection).document(currentUserId)
-// //                      .collection('cart').document(item.documentID)
-// //                      .delete();
-// //                  },
-// //                    child: Container(
-// //                        decoration: BoxDecoration(
-// //                            color: Theme.of(context).accentColor,
-// //                            borderRadius: BorderRadius.circular(8)
-// //                        ),
-// ////                                      RoundedRectangleBorder(
-// ////                                          borderRadius: BorderRadius.circular(30.0)),
-// //                        alignment: Alignment.center,
-// //                        height: 32,
-// //                        width: 65,
-// //                        child: Text(
-// //                          'DEL',
-// //
-// //                          style: TextStyle(letterSpacing: 1.1,
-// //                              fontSize: 18,
-// //                              color:
-// //                              Colors.white,fontWeight: FontWeight.w400),
-// //                        )),
-// //                  )
-//                 ],
-//               ),
-//             ],
-//           ),
-//         )
-//       ]),
-//     );
   }
 
   double _currentPrice = 1.2;

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:japfooduser/grocerry_kit/sub_pages/admin_settings_page.dart';
 import 'package:japfooduser/grocerry_kit/sub_pages/cartPage.dart';
 import 'package:japfooduser/grocerry_kit/sub_pages/category_all_pager.dart';
@@ -9,6 +10,9 @@ import 'package:japfooduser/grocerry_kit/sub_pages/home_list.dart';
 import 'package:japfooduser/grocerry_kit/sub_pages/order_history.dart';
 import 'package:japfooduser/providers/collection_names.dart';
 import 'package:japfooduser/utils/cart_icons_icons.dart';
+
+double subtotal = 0;
+int cartItemCount = 0;
 
 // ignore: must_be_immutable
 class HomePage extends StatefulWidget {
@@ -26,8 +30,6 @@ class _HomePageState extends State<HomePage> {
 
   bool _prefloading = false;
   String currentUserId;
-  double _subtotal = 0;
-  int _cartItemCount = 0;
 
   @override
   void initState() {
@@ -99,11 +101,11 @@ class _HomePageState extends State<HomePage> {
                         }
                         final snapShotData = snapshot.data.documents;
                         if (snapShotData.length > 0) {
-                          _subtotal = 0;
-                          _cartItemCount = 0;
+                          subtotal = 0;
+                          cartItemCount = 0;
                           snapShotData.forEach((element) {
-                            _cartItemCount += element.data['quantity'];
-                            _subtotal += element.data['price'] *
+                            cartItemCount += element.data['quantity'];
+                            subtotal += element.data['price'] *
                                 element.data['quantity'];
                           });
                         }
@@ -139,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                                             color: Colors.black54, width: 1),
                                         borderRadius: BorderRadius.circular(4)),
                                     child: Text(
-                                      '$_cartItemCount',
+                                      '$cartItemCount',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -148,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                   Text(
-                                    '£' + _subtotal.toStringAsFixed(2),
+                                    '£' + subtotal.toStringAsFixed(2),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -188,9 +190,10 @@ class _HomePageState extends State<HomePage> {
       child: BottomNavigationBar(
         selectedItemColor: Theme.of(context).accentColor,
         unselectedItemColor: Colors.grey,
+
 //      backgroundColor: Theme.of(context).primaryColor,
 //      fixedColor: Colors.black,
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         currentIndex: _index,
         onTap: (index) {
           bottomTapped(index);
