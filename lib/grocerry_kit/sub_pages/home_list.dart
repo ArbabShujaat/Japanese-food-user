@@ -143,10 +143,11 @@ class _HomeListState extends State<HomeList> {
                       );
                     },
                     child: buildItem(
-                        product.productName,
-                        product.productDescription,
-                        product.productImageRef,
-                        product.productPrice),
+                      product.productName,
+                      product.productDescription,
+                      product.productImageRef,
+                      product.productPrice,
+                    ),
                   );
                 });
           }),
@@ -174,11 +175,6 @@ class _HomeListState extends State<HomeList> {
                     spreadRadius: 2.0,
                     color: Colors.deepOrangeAccent)
               ],
-              // image: DecorationImage(
-
-              //   image: NetworkImage(url),
-              //   fit: BoxFit.cover,
-              // ),
             ),
             child: Image.network(
               url,
@@ -288,6 +284,7 @@ class _HomeListState extends State<HomeList> {
                                 'name': title,
                                 'quantity': 1,
                                 'subtotal': price,
+                                'productDescription': description,
                                 'description': ''
                               }).then((value) {
                                 Scaffold.of(context).showSnackBar(SnackBar(

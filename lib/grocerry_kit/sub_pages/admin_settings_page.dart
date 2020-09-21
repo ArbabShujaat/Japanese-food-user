@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:japfooduser/grocerry_kit/sub_pages/cartPage.dart';
 import 'package:japfooduser/main.dart';
@@ -179,8 +180,11 @@ class _CouponDeliveryPageState extends State<CouponDeliveryPage> {
                 child: FlatButton(
                   child: Text('Logout',
                       style: TextStyle(fontSize: 20, color: Colors.white)),
-                  onPressed: () {
+                  onPressed: () async {
                     FirebaseAuth.instance.signOut();
+                    GoogleSignIn googleSignIn = GoogleSignIn();
+                    GoogleSignInAccount account = await googleSignIn.signOut();
+
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => SignInPage()),
                         (Route<dynamic> route) => false);

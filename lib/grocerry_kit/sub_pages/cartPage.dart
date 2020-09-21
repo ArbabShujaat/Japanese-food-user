@@ -509,6 +509,7 @@ class _CartPageState extends State<CartPage> {
     UserModel userProfile =
         Provider.of<User>(context, listen: false).userProfile;
     var cartItem = item.data;
+    print(cartItem['price'].toString());
     return GestureDetector(
         onTap: () {
           setState(() {
@@ -552,7 +553,10 @@ class _CartPageState extends State<CartPage> {
                     height: 5.0,
                   ),
                   Text(
-                    "£" + (cartItem['price'] * cartItem['quantity']).toString(),
+                    "£" +
+                        (cartItem['price'] * cartItem['quantity'])
+                            .truncateToDouble()
+                            .toString(),
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey[600],
@@ -668,6 +672,9 @@ class _CartPageState extends State<CartPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(18.0),
+                side: BorderSide(color: Colors.deepOrange, width: 6)),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -683,7 +690,7 @@ class _CartPageState extends State<CartPage> {
                 NumberPicker.integer(
                     initialValue: 0,
                     minValue: 0,
-                    maxValue: 30,
+                    maxValue: 24,
                     onChanged: (num a) {
                       hour = a;
                       print(hour);

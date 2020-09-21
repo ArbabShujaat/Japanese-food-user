@@ -13,34 +13,37 @@ class _HelloState extends State<Hello> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-
-      appBar:AppBar(
+      appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
-        elevation: 0,backgroundColor: Theme.of(context).buttonColor,
+        elevation: 0,
+        backgroundColor: Theme.of(context).buttonColor,
         automaticallyImplyLeading: true,
         title: Text(
           "Hello!",
           textAlign: TextAlign.end,
-          style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w500),
+          style: TextStyle(
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.w500),
         ),
-
       ),
       body: Center(
         child: Container(
           color: Colors.white,
-          height: height *0.6,
+          height: height * 0.6,
           width: width,
           child: CarouselSlider(
             options: CarouselOptions(
-              height: height*0.6,
+              height: height * 0.6,
               initialPage: 0,
-
               reverse: false,
               autoPlay: true,
               enlargeCenterPage: true,
             ),
-            items: ['images/hello1.jpg','images/hello2.jpg','images/hello3.jpg'].map((i) {
+            items: [
+              'images/hello1.jpg',
+              'images/hello3.jpg',
+              'images/hello2.jpg'
+            ].map((i) {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
@@ -48,7 +51,7 @@ class _HelloState extends State<Hello> {
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage(i), fit: BoxFit.cover)),
+                            image: AssetImage(i), fit: BoxFit.fill)),
                   );
                 },
               );

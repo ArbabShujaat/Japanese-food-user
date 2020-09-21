@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:japfooduser/grocerry_kit/sub_pages/InformationofItems.dart';
 import 'package:japfooduser/grocerry_kit/sub_pages/cartPage.dart';
+import 'package:japfooduser/grocerry_kit/sub_pages/home_list.dart';
 import 'package:japfooduser/providers/collection_names.dart';
 import 'package:japfooduser/providers/product.dart';
 import 'package:provider/provider.dart';
@@ -200,131 +202,199 @@ class _ProductGridViewState extends State<ProductGridView> {
                   var data = snapshot.data.documents[index];
                   ProductModel product =
                       Provider.of<Product>(context).convertToProductModel(data);
-                  return Container(
-                    height: 150,
-                    width: MediaQuery.of(context).size.width,
-                    padding:
-                        EdgeInsets.only(left: 30, top: 4, bottom: 4, right: 20),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          width: 110,
-                          height: 110,
-                          //margin: EdgeInsets.only(left: 5),
-                          child: CircleAvatar(
-                            maxRadius: 55,
-                            backgroundColor: Colors.grey[300],
-                            backgroundImage:
-                                NetworkImage(product.productImageRef),
+                  return GestureDetector(
+                    onTap: () {
+                      p = data;
+                      userid = currentUserId;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InformationofItems()),
+                      );
+                    },
+                    onLongPress: () {
+                      p = data;
+                      userid = currentUserId;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InformationofItems()),
+                      );
+                    },
+                    child: Container(
+                      height: 150,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(
+                          left: 30, top: 4, bottom: 4, right: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            width: 110,
+                            height: 110,
+                            //margin: EdgeInsets.only(left: 5),
+                            child: CircleAvatar(
+                              maxRadius: 55,
+                              backgroundColor: Colors.grey[300],
+                              backgroundImage:
+                                  NetworkImage(product.productImageRef),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 18,
-                        ),
-                        Expanded(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                              Text(
-                                product.productName,
-                                softWrap: true,
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                              SizedBox(
-                                height: 6,
-                              ),
-                              Text(
-                                product.productDescription,
-                                maxLines: 2,
-                                softWrap: true,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.black54,
+                          SizedBox(
+                            width: 18,
+                          ),
+                          Expanded(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                Text(
+                                  product.productName,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context).primaryColor),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 17,
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    "£" + product.productPrice,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400,
-                                        color: Theme.of(context).primaryColor),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                Text(
+                                  product.productDescription,
+                                  maxLines: 2,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: Colors.black54,
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      double price =
-                                          double.parse(product.productPrice);
-                                      Firestore.instance
-                                          .collection(users_collection)
-                                          .document(currentUserId)
-                                          .collection('cart')
-                                          .add({
-                                        'price': price,
-                                        'image': product.productImageRef,
-                                        'name': product.productName,
-                                        'quantity': 1,
-                                        'subtotal': price
-                                      }).then((value) {
-                                        Scaffold.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                            "Item added to cart",
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                          backgroundColor:
-                                              Theme.of(context).accentColor,
-                                          duration:
-                                              Duration(milliseconds: 1000),
-                                        ));
-                                      }).catchError((e) {
-                                        Scaffold.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                            "Error. Please Check your internet connection.",
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                          backgroundColor:
-                                              Theme.of(context).errorColor,
-                                          duration:
-                                              Duration(milliseconds: 1000),
-                                        ));
-                                      });
-                                    },
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            color:
-                                                Theme.of(context).accentColor,
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
+                                ),
+                                SizedBox(
+                                  height: 17,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      "£" + product.productPrice,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        double price =
+                                            double.parse(product.productPrice);
+                                        QuerySnapshot cartdocs = await Firestore
+                                            .instance
+                                            .collection(users_collection)
+                                            .document(currentUserId)
+                                            .collection('cart')
+                                            .where('name',
+                                                isEqualTo: product.productName)
+                                            .getDocuments();
+                                        if (cartdocs.documents.length > 0) {
+                                          Firestore.instance
+                                              .collection(users_collection)
+                                              .document(currentUserId)
+                                              .collection('cart')
+                                              .document(cartdocs
+                                                  .documents[0].documentID)
+                                              .updateData({
+                                            'quantity': cartdocs.documents[0]
+                                                    ['quantity'] +
+                                                1
+                                          }).then((value) {
+                                            Scaffold.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content: Text(
+                                                "Item added to cart",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              backgroundColor:
+                                                  Theme.of(context).accentColor,
+                                              duration:
+                                                  Duration(milliseconds: 1000),
+                                            ));
+                                          }).catchError((e) {
+                                            Scaffold.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content: Text(
+                                                "Error. Please Check your internet connection.",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              backgroundColor:
+                                                  Theme.of(context).errorColor,
+                                              duration:
+                                                  Duration(milliseconds: 1000),
+                                            ));
+                                          });
+                                        } else {
+                                          Firestore.instance
+                                              .collection(users_collection)
+                                              .document(currentUserId)
+                                              .collection('cart')
+                                              .add({
+                                            'price': price,
+                                            'image': product.productImageRef,
+                                            'name': product.productName,
+                                            'quantity': 1,
+                                            'subtotal': price,
+                                            'description': ''
+                                          }).then((value) {
+                                            Scaffold.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content: Text(
+                                                "Item added to cart",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              backgroundColor:
+                                                  Theme.of(context).accentColor,
+                                              duration:
+                                                  Duration(milliseconds: 1000),
+                                            ));
+                                          }).catchError((e) {
+                                            Scaffold.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content: Text(
+                                                "Error. Please Check your internet connection.",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              backgroundColor:
+                                                  Theme.of(context).errorColor,
+                                              duration:
+                                                  Duration(milliseconds: 1000),
+                                            ));
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
 //                                      RoundedRectangleBorder(
 //                                          borderRadius: BorderRadius.circular(30.0)),
-                                        alignment: Alignment.center,
-                                        height: 32,
-                                        width: 65,
-                                        child: Text(
-                                          'BUY',
-                                          style: TextStyle(
-                                              letterSpacing: 1.1,
-                                              fontSize: 18,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w400),
-                                        )),
-                                  )
-                                ],
-                              )
-                            ]))
-                      ],
+                                          alignment: Alignment.center,
+                                          height: 32,
+                                          width: 65,
+                                          child: Text(
+                                            'BUY',
+                                            style: TextStyle(
+                                                letterSpacing: 1.1,
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w400),
+                                          )),
+                                    )
+                                  ],
+                                )
+                              ]))
+                        ],
+                      ),
                     ),
                   );
                 });

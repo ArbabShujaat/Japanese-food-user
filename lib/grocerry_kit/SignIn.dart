@@ -180,7 +180,8 @@ class _SignInPageState extends State<SignInPage> {
                               ),
                             ),
                           ),
-                          if (_isLoading) CircularProgressIndicator(),
+                          if (_isLoading)
+                            CircularProgressIndicator(),
                           if (!_isLoading)
                             Container(
                               margin: EdgeInsets.only(top: 16, bottom: 16),
@@ -204,7 +205,6 @@ class _SignInPageState extends State<SignInPage> {
                                 },
                               ),
                             ),
-
 
                           ///Google sign in
                           if (!_isLoading)
@@ -237,7 +237,7 @@ class _SignInPageState extends State<SignInPage> {
                                 color: Theme.of(context).accentColor,
                                 shape: BoxShape.rectangle,
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               ),
                               width: 200,
                               child: FlatButton(
@@ -245,13 +245,13 @@ class _SignInPageState extends State<SignInPage> {
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.white)),
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
                                     return SignUpPage();
                                   }));
                                 },
                               ),
                             ),
-
                         ],
                       ),
                     ),
